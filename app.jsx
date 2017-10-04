@@ -1,4 +1,4 @@
-//scoremvc
+//scoreBmvc
 class Model {
   constructor(){
     this.players = [
