@@ -1,3 +1,4 @@
+//scoremvc
 class Model {
   constructor(){
     this.players = [
@@ -62,8 +63,6 @@ class Model {
     }*/ 
   }
 }
-
-
 
 const Header = ({model}) => {
   return(
