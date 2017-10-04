@@ -1,4 +1,4 @@
-let PLAYERS = [
+const PLAYERS = [
   {
     name: "Jim Hoskins",
     score: 31,
@@ -23,13 +23,13 @@ class Model {
   }
 
   subscribe(render){
-    this.callback = render;
+    this.render = render;
   }
   notify(){
-    this.callback();
+    this.render();
   }
   getPlayer(contenido){
-    this.layers.push({
+    this.players.push({
       name: contenido.value,
       score: 0,
       id: this.players.length + 1
@@ -48,14 +48,15 @@ class Model {
   }
   getAllPoints(){
     return this.players.map(item => item.score).reduce((total, item) => total + item);
-  
-    /*function AllPoints(players){
-      return players.map(player => player.score).reduce((a, b) => a + b);
-    }*/
+      
   }
 }
 
-const Application = ({title, model}) => {
+/*function AllPoints(players){
+      return players.map(player => player.score).reduce((a, b) => a + b);
+    }*/
+
+const Application = ({ model}) => {
    return (
      <div className="container scoreboard">
         <Header model={model}/>
@@ -89,19 +90,27 @@ const Header = ({model}) => {
   );
 }
 
+const PlayerList = ({model}) => {
+  return (
+      <div>
+        {model.players.map(e => {
+          return <Player e={e}/>
+        })}
+      </div>
+  );
+}
 
-
-const PlayerList = ({players}) => {
+const Player = ({player}) => {
   return (
     <div>
       {
-        players.map((e) => {
-          return <div className='player' key={e.id}>
-            <div className='player-name'>{e.name}</div>
+        players.map((player) => {
+          return <div className='player' key={player.id}>
+            <div className='player-name'>{player.name}</div>
             <div className='player-score counter'>
-              <button className='counter-action decrement' onClick={e.score ? () => model.getRest(e):''}>-</button>
-              <span className='counter-score'>{e.score}</span>
-              <button className='counter-action increment'onClick={e.score ? () => model.getSum(e):''}>+</button>
+              <button className='counter-action decrement' onClick={player.score ? () => model.getRest(player):''}>-</button>
+              <span className='counter-score'>{player.score}</span>
+              <button className='counter-action increment'onClick={() => model.getSum(e)}>+</button>
             </div>
           </div>
         })
@@ -127,10 +136,9 @@ const PlayerForm = ({model}) => {
 let model = new Model(PLAYERS);
 
 let render = () =>{
-  ReactDOM.render(<Application title="Scoreboard" model = {model}/>,
+  ReactDOM.render(<Application model = {model}/>,
   document.getElementById('container'));
 }
 
 model.subscribe(render);
 render();
-
