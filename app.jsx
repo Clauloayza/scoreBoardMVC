@@ -30,13 +30,12 @@ class Model {
   }
 
   NewPlayer(name){
-    if(this.input != null && this.input != ' '){
       this.players.push({
         name: this.input.value,
         score:0,
       })
       this.input.value = '';
-    }
+    
     this.notify();
     this.callback();
   }
